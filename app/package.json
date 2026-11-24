@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "test": "node --test",
+    "test": "node --test src/api/pokeapi.test.js",
+    "test:auth": "node --test src/auth/auth.integration.test.js",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
