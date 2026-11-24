@@ -6,12 +6,19 @@ Provides a browsable Pokémon gallery where users can keep personal likes tied t
 
 ## ADDED Requirements
 
-### Requirement: Browse the fixed Pokémon gallery
-The system SHALL display a predefined catalog of at least 100 distinct Pokémon as image cards without requiring authentication.
+### Requirement: Browse the PokeAPI Pokémon gallery
+The system SHALL load at least 100 distinct Pokémon entries from PokeAPI when the gallery opens and display them as image cards without requiring authentication. Each card SHALL use licensed artwork when configured, or a local generic placeholder otherwise.
 
-#### Scenario: Visitor opens the gallery
-- **WHEN** a visitor opens the gallery
-- **THEN** the system displays at least 100 Pokémon cards, each with its name and image
+#### Scenario: PokeAPI returns the catalog
+- **WHEN** a visitor opens the gallery and PokeAPI returns the requested entries
+- **THEN** the system displays at least 100 cards with Pokémon names and an image or the local generic placeholder
+
+### Requirement: Report catalog loading failures
+The system SHALL report when it cannot load the Pokémon catalog and provide a way to retry.
+
+#### Scenario: PokeAPI is unavailable
+- **WHEN** the gallery cannot retrieve the catalog from PokeAPI
+- **THEN** the system displays a clear error and a retry action instead of presenting the catalog as successfully loaded
 
 ### Requirement: Sign in before liking a Pokémon
 The system SHALL require an authenticated account before recording a Pokémon like.
