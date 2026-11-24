@@ -10,6 +10,7 @@
     "test": "node --test src/api/pokeapi.test.js && vitest run src/App.test.jsx",
     "test:ui": "vitest run src/App.test.jsx",
     "test:auth": "node --test src/auth/auth.integration.test.js",
+    "test:integration": "node --test src/auth/auth.integration.test.js src/likes/pokemonLikes.integration.test.js",
     "preview": "vite preview"
   },
   "dependencies": {

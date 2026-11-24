@@ -17,4 +17,4 @@
 
 ## 4. Integration verification
 
-- [ ] 4.1 Run the production build and end-to-end checks for the API error/retry state, at least 100 cards, likes across separate sessions/devices, and isolation between two user accounts; document the verification command and results.
+- [x] 4.1 Run the production build and end-to-end checks for the API error/retry state, at least 100 cards, likes across separate sessions/devices, and isolation between two user accounts; document the verification command and results.
