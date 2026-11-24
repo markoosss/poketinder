@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { fetchPokemonCatalog } from './api/pokeapi.js'
+import {
+  fetchPokemonCatalog,
+  POKEMON_PLACEHOLDER_URL,
+} from './api/pokeapi.js'
 import { useAuth } from './auth/useAuth.js'
 import {
   addPokemonLike,
@@ -35,7 +38,19 @@ function PokemonGrid({
         return (
           <article className="pokemon-card" key={entry.id}>
             <div className="pokemon-card__art">
-              <img src={entry.imageUrl} alt={`Ilustración provisional de ${name}`} />
+              <img
+                alt={`Imagen de ${name}`}
+                decoding="async"
+                loading="lazy"
+                onError={(event) => {
+                  const image = event.currentTarget
+
+                  if (!image.src.endsWith(POKEMON_PLACEHOLDER_URL)) {
+                    image.src = POKEMON_PLACEHOLDER_URL
+                  }
+                }}
+                src={entry.imageUrl}
+              />
               <span className="pokemon-card__number">
                 #{String(entry.id).padStart(3, '0')}
               </span>

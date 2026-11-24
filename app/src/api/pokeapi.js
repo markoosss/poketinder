@@ -1,5 +1,22 @@
 export const POKEAPI_URL = 'https://pokeapi.co/api/v2/pokemon?limit=100'
 export const POKEMON_PLACEHOLDER_URL = '/pokemon-placeholder.svg'
+const DETAIL_BATCH_SIZE = 10
+
+function getPokemonImageUrl(details) {
+  const officialArtwork =
+    details?.sprites?.other?.['official-artwork']?.front_default
+  const defaultSprite = details?.sprites?.front_default
+
+  if (typeof officialArtwork === 'string' && officialArtwork) {
+    return officialArtwork
+  }
+
+  if (typeof defaultSprite === 'string' && defaultSprite) {
+    return defaultSprite
+  }
+
+  return POKEMON_PLACEHOLDER_URL
+}
 
 export async function fetchPokemonCatalog(fetcher = fetch) {
   const response = await fetcher(POKEAPI_URL)
@@ -14,7 +31,7 @@ export async function fetchPokemonCatalog(fetcher = fetch) {
     throw new Error('PokeAPI no devolvió al menos 100 Pokémon.')
   }
 
-  const pokemon = payload.results.slice(0, 100).map((entry) => {
+  const catalog = payload.results.slice(0, 100).map((entry) => {
     const idMatch =
       typeof entry?.url === 'string' &&
       entry.url.match(/\/pokemon\/(\d+)\/?$/)
@@ -26,15 +43,44 @@ export async function fetchPokemonCatalog(fetcher = fetch) {
     return {
       id: Number(idMatch[1]),
       name: entry.name,
-      imageUrl: POKEMON_PLACEHOLDER_URL,
+      url: entry.url,
     }
   })
 
-  const uniqueIds = new Set(pokemon.map(({ id }) => id))
-  const uniqueNames = new Set(pokemon.map(({ name }) => name.toLowerCase()))
+  const uniqueIds = new Set(catalog.map(({ id }) => id))
+  const uniqueNames = new Set(catalog.map(({ name }) => name.toLowerCase()))
 
-  if (uniqueIds.size !== pokemon.length || uniqueNames.size !== pokemon.length) {
+  if (
+    uniqueIds.size !== catalog.length ||
+    uniqueNames.size !== catalog.length
+  ) {
     throw new Error('PokeAPI devolvió Pokémon duplicados.')
+  }
+
+  const pokemon = []
+
+  for (let offset = 0; offset < catalog.length; offset += DETAIL_BATCH_SIZE) {
+    const batch = catalog.slice(offset, offset + DETAIL_BATCH_SIZE)
+    const detailedPokemon = await Promise.all(
+      batch.map(async ({ url, ...entry }) => {
+        const detailResponse = await fetcher(url)
+
+        if (!detailResponse.ok) {
+          throw new Error(
+            `No se pudieron cargar los datos de imagen de ${entry.name} desde PokeAPI.`,
+          )
+        }
+
+        const details = await detailResponse.json()
+
+        return {
+          ...entry,
+          imageUrl: getPokemonImageUrl(details),
+        }
+      }),
+    )
+
+    pokemon.push(...detailedPokemon)
   }
 
   return pokemon
