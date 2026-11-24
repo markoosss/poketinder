@@ -7,7 +7,7 @@
 
 ## 2. Accounts and storage
 
-- [ ] 2.1 Add a database migration for account-owned likes with a unique user/Pokémon pair and row-level security; document migration setup and verify users can access only their own rows.
+- [x] 2.1 Add a database migration for account-owned likes with a unique user/Pokémon pair and row-level security; document migration setup and verify users can access only their own rows.
 - [ ] 2.2 Configure managed email authentication and frontend environment settings without exposing privileged keys; document setup and verify sign-up, sign-in, and sign-out flows.
 
 ## 3. Gallery and likes
