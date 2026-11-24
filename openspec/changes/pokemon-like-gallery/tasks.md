@@ -3,7 +3,7 @@
 ## 1. Frontend and catalog
 
 - [x] 1.1 Scaffold the React/Vite frontend and verify its production build completes.
-- [ ] 1.2 Load at least 100 distinct Pokémon entries from PokeAPI at runtime and provide a local generic placeholder until licensed artwork is available; document the data and image sources, and verify tests enforce the entry count, uniqueness, and placeholder availability.
+- [x] 1.2 Load at least 100 distinct Pokémon entries from PokeAPI at runtime and provide a local generic placeholder until licensed artwork is available; document the data and image sources, and verify tests enforce the entry count, uniqueness, and placeholder availability.
 
 ## 2. Accounts and storage
 

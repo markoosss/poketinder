@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title">
+  <title id="title">Ilustración genérica provisional</title>
+  <defs>
+    <linearGradient id="background" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#d9e8ff"/>
+      <stop offset="1" stop-color="#f2ddff"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="32" fill="url(#background)"/>
+  <circle cx="120" cy="112" r="64" fill="#ffffff" fill-opacity=".72"/>
+  <path d="M120 63c-18 0-32 13-32 30 0 11 6 19 16 24 7 4 10 8 10 16h13c0-14-6-22-16-28-7-4-10-7-10-13 0-10 8-17 19-17s19 7 19 17h14c0-17-14-29-33-29Z" fill="#536784"/>
+  <circle cx="120" cy="151" r="8" fill="#536784"/>
+  <text x="120" y="207" fill="#536784" font-family="sans-serif" font-size="12" text-anchor="middle">IMAGEN PROVISIONAL</text>
+</svg>
