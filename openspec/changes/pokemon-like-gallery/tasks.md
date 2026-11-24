@@ -13,7 +13,7 @@
 ## 3. Gallery and likes
 
 - [x] 3.1 Build the gallery cards and guest browsing experience; verify tests render at least 100 API-backed cards with names and placeholders without requiring sign-in.
-- [ ] 3.2 Add the sign-in prompt and authenticated like/unlike actions; verify tests cover guest gating, saved state, and removal of a like.
+- [x] 3.2 Add the sign-in prompt and authenticated like/unlike actions; verify tests cover guest gating, saved state, and removal of a like.
 
 ## 4. Integration verification
 

@@ -531,3 +531,286 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+.pokemon-card__details {
+  align-items: stretch;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pokemon-card__title {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.header-account {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.account-email {
+  max-width: 190px;
+  overflow: hidden;
+  color: #70768b;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-auth-button,
+.sign-out-button {
+  padding: 9px 14px;
+  border: 1px solid #e8eaf1;
+  border-radius: 10px;
+  background: #fff;
+  color: #343850;
+  font-size: 0.77rem;
+  font-weight: 750;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.header-auth-button:hover,
+.sign-out-button:hover {
+  border-color: #f0a8ae;
+  background: #fff7f7;
+}
+
+.favorite-button {
+  width: 100%;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid #eceef3;
+  border-radius: 10px;
+  background: #fff;
+  color: #747a8e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.favorite-button > span {
+  color: #c1c4cf;
+  font-size: 0.98rem;
+  line-height: 1;
+}
+
+.favorite-button:hover:not(:disabled) {
+  border-color: #f3c6ca;
+  background: #fff7f7;
+  color: #d84c5a;
+}
+
+.favorite-button--active {
+  border-color: #ffd9dc;
+  background: #fff0f1;
+  color: #cb4352;
+}
+
+.favorite-button--active > span {
+  color: #e44c5d;
+}
+
+.favorite-button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.account-error,
+.likes-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 15px;
+  border: 1px solid #f5cacc;
+  border-radius: 12px;
+  background: #fff3f3;
+  color: #a93642;
+  font-size: 0.83rem;
+}
+
+.account-error {
+  margin: 14px 0 0;
+}
+
+.likes-alert {
+  margin: 0 0 18px;
+}
+
+.likes-alert button {
+  flex: none;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #f04e5e;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.auth-overlay {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: 24px;
+  background: #17192bcc;
+  backdrop-filter: blur(5px);
+}
+
+.auth-dialog {
+  width: min(100%, 440px);
+  position: relative;
+  padding: 34px;
+  border: 1px solid #f0f0f5;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 25px 80px #10122555;
+}
+
+.auth-dialog__close {
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #f3f4f8;
+  color: #656b80;
+  font-size: 1.25rem;
+}
+
+.auth-dialog h2 {
+  max-width: 330px;
+  margin: 0;
+  color: #292d43;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.13;
+}
+
+.auth-dialog__description {
+  margin: 12px 0 24px;
+  color: #777d91;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.auth-form label {
+  margin-top: 5px;
+  color: #43485e;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.auth-form input {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #e1e3eb;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  color: #292d43;
+}
+
+.auth-form input:focus {
+  border-color: #e87781;
+  box-shadow: 0 0 0 3px #f04e5e1c;
+}
+
+.auth-submit {
+  min-height: 45px;
+  margin-top: 11px;
+  border: 0;
+  border-radius: 10px;
+  background: #f04e5e;
+  color: #fff;
+  font-weight: 750;
+}
+
+.auth-submit:hover:not(:disabled) {
+  background: #d93d4d;
+}
+
+.auth-submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.auth-feedback {
+  margin: 5px 0;
+  color: #387c61;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.auth-feedback--error {
+  color: #b43e49;
+}
+
+.auth-dialog__switch {
+  margin: 18px 0 0;
+  color: #797f92;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.auth-dialog__switch button {
+  margin-left: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d84957;
+  font-size: inherit;
+  font-weight: 750;
+}
+
+@media (max-width: 700px) {
+  .account-email {
+    display: none;
+  }
+
+  .header-account {
+    gap: 6px;
+  }
+
+  .header-auth-button,
+  .sign-out-button {
+    padding: 8px 10px;
+    font-size: 0.7rem;
+  }
+
+  .auth-dialog {
+    padding: 30px 24px 24px;
+  }
+
+  .auth-dialog h2 {
+    font-size: 1.5rem;
+  }
+}
