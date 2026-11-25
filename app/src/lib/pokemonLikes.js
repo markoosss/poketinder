@@ -30,6 +30,21 @@ export async function addPokemonLike(userId, pokemonId) {
   throwLikeError(error, 'guardar este favorito')
 }
 
+export async function mergePokemonLikes(userId, pokemonIds) {
+  const likes = pokemonIds.map((pokemonId) => ({
+    user_id: userId,
+    pokemon_id: pokemonId,
+  }))
+  const { error } = await getSupabaseClient()
+    .from('pokemon_likes')
+    .upsert(likes, {
+      onConflict: 'user_id,pokemon_id',
+      ignoreDuplicates: true,
+    })
+
+  throwLikeError(error, 'fusionar tus favoritos')
+}
+
 export async function removePokemonLike(userId, pokemonId) {
   const { error } = await getSupabaseClient()
     .from('pokemon_likes')

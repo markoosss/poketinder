@@ -7,6 +7,7 @@ import { useAuth } from './auth/useAuth.js'
 import {
   addPokemonLike,
   fetchPokemonLikes,
+  mergePokemonLikes,
   removePokemonLike,
 } from './lib/pokemonLikes.js'
 import './App.css'
@@ -75,7 +76,9 @@ function PokemonGrid({
                 {isPending
                   ? 'Guardando...'
                   : isLiked
-                    ? 'En tus favoritos'
+                    ? user
+                      ? 'En tus favoritos'
+                      : 'En esta sesión'
                     : 'Añadir a favoritos'}
               </button>
             </div>
@@ -131,12 +134,12 @@ function AuthDialog({
         <p className="eyebrow">Tus favoritos te esperan</p>
         <h2 id="auth-dialog-title">
           {mode === 'sign-in'
-            ? 'Inicia sesión para guardar tus favoritos'
+            ? 'Inicia sesión para sincronizar tus favoritos'
             : 'Crea tu cuenta'}
         </h2>
         <p className="auth-dialog__description">
-          Guarda tus Pokémon favoritos y accede a ellos desde cualquier
-          dispositivo.
+          Puedes dar likes sin cuenta. Inicia sesión para sincronizarlos entre
+          dispositivos.
         </p>
 
         {!configured ? (
@@ -215,6 +218,7 @@ export default function App() {
     ids: EMPTY_IDS,
     error: '',
   })
+  const [guestLikedIds, setGuestLikedIds] = useState(() => new Set())
   const [pendingLikeIds, setPendingLikeIds] = useState(() => new Set())
   const [likesRetry, setLikesRetry] = useState(0)
   const [authDialogOpen, setAuthDialogOpen] = useState(false)
@@ -232,7 +236,10 @@ export default function App() {
     Boolean(userId) &&
     likeData.userId === userId &&
     likeData.attempt === likesRetry
-  const likedIds = hasCurrentLikeData ? likeData.ids : EMPTY_IDS
+  const accountLikedIds = hasCurrentLikeData ? likeData.ids : EMPTY_IDS
+  const likedIds = userId
+    ? new Set([...accountLikedIds, ...guestLikedIds])
+    : guestLikedIds
   const likesStatus = !userId
     ? 'idle'
     : hasCurrentLikeData
@@ -273,19 +280,29 @@ export default function App() {
       return undefined
     }
 
-    fetchPokemonLikes(userId)
-      .then((pokemonIds) => {
+    async function loadAndMergeLikes() {
+      try {
+        const accountIds = await fetchPokemonLikes(userId)
+        const mergedIds = new Set([...accountIds, ...guestLikedIds])
+
+        if (guestLikedIds.size > 0) {
+          await mergePokemonLikes(userId, [...guestLikedIds])
+        }
+
         if (active) {
           setLikeData({
             userId,
             attempt: likesRetry,
             status: 'ready',
-            ids: new Set(pokemonIds),
+            ids: mergedIds,
             error: '',
           })
+
+          if (guestLikedIds.size > 0) {
+            setGuestLikedIds(new Set())
+          }
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         if (active) {
           setLikeData({
             userId,
@@ -298,12 +315,15 @@ export default function App() {
                 : 'No se pudieron cargar tus favoritos.',
           })
         }
-      })
+      }
+    }
+
+    loadAndMergeLikes()
 
     return () => {
       active = false
     }
-  }, [userId, likesRetry])
+  }, [userId, likesRetry, guestLikedIds])
 
   function retryCatalog() {
     setErrorMessage('')
@@ -367,7 +387,17 @@ export default function App() {
 
   async function toggleLike(pokemonId) {
     if (!user) {
-      openAuthDialog()
+      setGuestLikedIds((currentIds) => {
+        const nextIds = new Set(currentIds)
+
+        if (nextIds.has(pokemonId)) {
+          nextIds.delete(pokemonId)
+        } else {
+          nextIds.add(pokemonId)
+        }
+
+        return nextIds
+      })
       return
     }
 
@@ -488,7 +518,7 @@ export default function App() {
           </p>
           <div className="hero__note">
             <span aria-hidden="true">✦</span>
-            Puedes explorar la galería sin iniciar sesión.
+            Explora y da likes sin cuenta; se guardan solo en esta visita.
           </div>
         </div>
         <div className="hero__decoration" aria-hidden="true">

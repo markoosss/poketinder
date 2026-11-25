@@ -116,6 +116,34 @@ test('likes persist across sessions and remain isolated between accounts', async
     assert.equal(stillSavedError, null, stillSavedError?.message)
     assert.equal(stillSaved.length, 1)
 
+    const { error: mergeError } = await trainerSecondSession
+      .from('pokemon_likes')
+      .upsert(
+        [
+          { user_id: trainer.userId, pokemon_id: 25 },
+          { user_id: trainer.userId, pokemon_id: 26 },
+        ],
+        {
+          onConflict: 'user_id,pokemon_id',
+          ignoreDuplicates: true,
+        },
+      )
+
+    assert.equal(mergeError, null, mergeError?.message)
+
+    const { data: mergedLikes, error: mergedLikesError } =
+      await trainerSecondSession
+        .from('pokemon_likes')
+        .select('pokemon_id')
+        .eq('user_id', trainer.userId)
+        .order('pokemon_id')
+
+    assert.equal(mergedLikesError, null, mergedLikesError?.message)
+    assert.deepEqual(
+      mergedLikes.map(({ pokemon_id: pokemonId }) => pokemonId),
+      [25, 26],
+    )
+
     const { error: removeError } = await trainerSecondSession
       .from('pokemon_likes')
       .delete()

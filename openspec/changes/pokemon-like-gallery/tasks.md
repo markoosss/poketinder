@@ -3,7 +3,7 @@
 ## 1. Frontend and catalog
 
 - [x] 1.1 Scaffold the React/Vite frontend and verify its production build completes.
-- [x] 1.2 Load at least 100 distinct Pokémon entries from PokeAPI at runtime and provide a local generic placeholder until licensed artwork is available; document the data and image sources, and verify tests enforce the entry count, uniqueness, and placeholder availability.
+- [x] 1.2 Load at least 100 distinct Pokémon entries from PokeAPI at runtime, use its artwork URLs when available with a local generic placeholder fallback, document the sources, and test the entry count, uniqueness, and image fallback.
 
 ## 2. Accounts and storage
 
@@ -13,7 +13,7 @@
 ## 3. Gallery and likes
 
 - [x] 3.1 Build the gallery cards and guest browsing experience; verify tests render at least 100 API-backed cards with names and placeholders without requiring sign-in.
-- [x] 3.2 Add the sign-in prompt and authenticated like/unlike actions; verify tests cover guest gating, saved state, and removal of a like.
+- [x] 3.2 Allow session-only guest likes and optional authenticated like/unlike actions; merge guest likes on sign-in and verify saved state and removal.
 
 ## 4. Integration verification
 

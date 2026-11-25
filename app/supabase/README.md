@@ -20,6 +20,10 @@ Copy `.env.example` to `.env.local`, then set `VITE_SUPABASE_URL` and `VITE_SUPA
 
 For the local stack, email confirmations are disabled so the auth smoke test can sign up and sign in immediately. Run `npm run test:auth` with the two environment variables set to verify sign-up, sign-in, and sign-out.
 
+Visitors can like and unlike Pokémon without an account. Guest likes live only
+in page memory and are cleared on reload; signing in during that visit merges
+them into the account so they sync across devices.
+
 ## End-to-end verification
 
 The gallery checks run with `npm test`. The Supabase integration tests create
@@ -58,4 +62,6 @@ passed; both Supabase integration tests passed; all 7 pgTAP checks passed; lint
 and the production build completed successfully. A live browser check also
 verified 100 cards, account creation, saving a favorite, persistence across a
 page reload, removing the favorite, and sign-out; its temporary account was
-deleted afterward.
+deleted afterward. Guest likes were also verified to work without a prompt,
+clear on reload, and merge into an account after sign-up; that temporary
+account was deleted as well.

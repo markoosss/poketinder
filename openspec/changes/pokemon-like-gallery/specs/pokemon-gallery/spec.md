@@ -20,13 +20,18 @@ The system SHALL report when it cannot load the Pokémon catalog and provide a w
 - **WHEN** the gallery cannot retrieve the catalog from PokeAPI
 - **THEN** the system displays a clear error and a retry action instead of presenting the catalog as successfully loaded
 
-### Requirement: Sign in before liking a Pokémon
-The system SHALL require an authenticated account before recording a Pokémon like.
+### Requirement: Allow guest likes
+The system SHALL let visitors like and unlike Pokémon without authentication. Guest likes SHALL remain in memory for the current visit and SHALL NOT be persisted after the page is reloaded.
 
-#### Scenario: Visitor tries to like a Pokémon
+#### Scenario: Visitor likes a Pokémon
 - **GIVEN** the visitor is not signed in
-- **WHEN** the visitor tries to like a Pokémon
-- **THEN** the system prompts the visitor to sign in and does not record the like
+- **WHEN** the visitor selects the like action
+- **THEN** the system records the like for the current visit without prompting for authentication
+
+#### Scenario: Visitor reloads the gallery
+- **GIVEN** the visitor has liked Pokémon without signing in
+- **WHEN** the visitor reloads the page
+- **THEN** the guest likes are cleared
 
 ### Requirement: Manage account-specific likes
 The system SHALL let a signed-in user like or unlike a Pokémon, with each choice associated with that user's account.
@@ -40,6 +45,11 @@ The system SHALL let a signed-in user like or unlike a Pokémon, with each choic
 - **GIVEN** the user is signed in and has liked the Pokémon
 - **WHEN** the user selects the unlike action
 - **THEN** the system removes the like from that user's account
+
+#### Scenario: Visitor signs in after liking Pokémon
+- **GIVEN** the visitor has guest likes in the current visit
+- **WHEN** the visitor signs in
+- **THEN** the system merges those likes into the signed-in user's account
 
 ### Requirement: Keep likes available across devices
 The system SHALL persist each user's likes so they are available when that user signs in on another device.
